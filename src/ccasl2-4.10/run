@@ -1,0 +1,4 @@
+#! /bin/bash
+./caslasm $1.cas -l
+./casllink -sym $1
+./casldeb $1.sym $1.exe

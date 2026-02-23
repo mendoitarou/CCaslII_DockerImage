@@ -1,0 +1,21 @@
+; 1から10までの和をディスプレイに表示
+;
+MAIN    START
+        LAD     GR7,1 ;カウンタ
+        LAD     GR1,0 ;和
+;
+LOOP    ADDA    GR1,GR7  ;1から10までの合計55(37H)をGR1に求める
+        ADDA    GR7,=1
+        CPA     GR7,=11
+        JMI     LOOP
+;
+        LAD     GR2,OUTWA  ;GR1を10進文字列に変換したものを格納
+                           ;する領域の先頭アドレスをGR2へセット
+DEBUG   CALL    BINDEC     ;BINDECのコール
+;
+        OUT     OUTBUF,OUTLEN ;結果をディスプレイに表示
+        RET
+OUTBUF  DC      'WA='
+OUTWA   DS      6
+OUTLEN  DC      9
+        END

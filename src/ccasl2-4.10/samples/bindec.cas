@@ -1,0 +1,72 @@
+;機能　与えられた２進数を１０進文字列に変換する
+;入力　GR1:被変換２進数
+;      GR2:変換後の文字列が入る領域のアドレス
+;出力　GR2が指す６語領域に変換後の文字列が入る
+;
+BINDEC  START
+        PUSH    0,GR1
+        PUSH    0,GR2
+        PUSH    0,GR3
+        LD      GR0,=0
+        ST      GR0,MIFLG
+        LD      GR0,SPACE
+;       
+        LD      GR3,=5
+LOOP1   ST      GR0,0,GR2
+        SUBA    GR3,=1
+        JMI     BREAK
+        ADDA    GR2,=1
+        JUMP    LOOP1
+;       
+BREAK   LD      GR1,GR1
+;       JPZ     LOOP2
+        JPL     LOOP2
+        JZE     LOOP2
+        LD      GR0,=1
+        ST      GR0,MIFLG
+        XOR     GR1,FFFF
+        ADDA    GR1,=1
+LOOP2   CALL    DIV10
+        ADDA    GR3,CHAR0
+        ST      GR3,0,GR2
+        SUBA    GR2,=1
+        ST      GR0,WORK
+        LD      GR1,WORK
+        LD      GR1,GR1
+        JNZ     LOOP2
+        LD      GR3,MIFLG
+        LD      GR3,GR3
+        JZE     JUMP
+        LD      GR0,MINUS
+        ST      GR0,0,GR2
+;       
+JUMP    POP     GR3
+        POP     GR2
+        POP     GR1
+DEBUG2  RET
+MIFLG   DS      1
+SPACE   DC      ' '
+FFFF    DC      #FFFF
+CHAR0   DC      '0'
+MINUS   DC      '-'
+WORK    DS      1
+        END
+;
+;機能　与えられた数値を１０で割る。
+;入力　GR1:被除数
+;出力  GR0:１０で割った商
+;      GR3:その余り
+;
+DIV10   START
+        LD      GR0,ZERO
+DLOOP   CPA     GR1,TEN
+        JMI     DJUMP
+        SUBA    GR1,TEN
+        ADDA    GR0,ONE
+        JUMP    DLOOP
+DJUMP   LD      GR3,GR1
+        RET
+ZERO    DC      0
+ONE     DC      1
+TEN     DC      10
+        END
