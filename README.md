@@ -6,6 +6,8 @@ Docker Hubのリンクはこちら
 [https://hub.docker.com/r/mendoitarou/ccasl2](https://hub.docker.com/r/mendoitarou/ccasl2)
 
 ## CCaslIIについて
+本家のホームページは[こちら](https://hyamag.sakura.ne.jp/hysoft/ccasl2_linux/)
+
 (本家`readme.txt`より抜粋)
 CCaslIIは，情報処理技術者試験の仮想コンピュータ「COMETII」，そのアセンブラ言語「CASLII」のシミュレータです。
 
