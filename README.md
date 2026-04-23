@@ -22,17 +22,41 @@ CCaslIIは，情報処理技術者試験の仮想コンピュータ「COMETII」
 ## イメージの使い方(CCaslIIの使い方は除く)
 Dockerがインストール済みの環境を想定しています。
 
-下記のコマンドで、イメージをダウンロードして、コンテナ内でbashを起動します。
+プログラムをホストで書いて、コンパイル・実行だけをコンテナで行う環境を構築してみます。
 
-```bash
-$ docker pull mendoitarou/ccasl2:latest
-$ docker run mendoitarou/ccasl2:latest /bin/bash
+ホストでディレクトリを作り、その中に`src`というディレクトリを作ります。そこにプログラムを書いていきます。
+
+```shell
+❯ tree
+.
+└── src
+    └── test.cas
+
+2 directories, 1 file
 ```
 
-コンテナ内で、以下のコマンドを実行し正しく動作するか確認してください。
+こんな感じです。
 
-```bash
-$ caslasm -h
+このディレクトリで以下のコマンドを実行すると、`/src`がマウントされたコンテナが立ち上がります。
+
+(`CCaslII`という名前で、コンテナ内のbashに入ります。なお、`--rm`オプションを付けているので、bashから出ると自動でコンテナは削除されます。)
+
+```shell
+docker run --name CCaslII --rm -v ./src:/src/ -it mendoitarou/ccasl2:latest /bin/bash
 ```
 
-ヘルプが表示されれば、イメージの利用準備は完了です。
+あとは、コンテナの中で`/src`に移動し、コンパイル・実行をすればOKです。
+
+実行例:
+
+```shell
+❯ docker run --name CCaslII --rm -v ./src:/src/ -it mendoitarou/ccasl2:latest /bin/bash
+root@c169c9250f91:/# ls /src
+test.cas
+```
+
+makeを使いたい人は、コンテナに入って追加でインストールしてください。(もしかしたら、別タグでmakeインストール済みのものを用意するかもしれません。)
+
+```
+apt update && apt install make
+```
