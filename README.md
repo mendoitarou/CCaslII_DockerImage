@@ -55,8 +55,8 @@ root@c169c9250f91:/# ls /src
 test.cas
 ```
 
-makeを使いたい人は、コンテナに入って追加でインストールしてください。(もしかしたら、別タグでmakeインストール済みのものを用意するかもしれません。)
+makeを使いたい人は、`make`タグでmakeインストール済みのものを用意しています。
 
 ```
-apt update && apt install make
+docker run --name CCaslII --rm -v ./src:/src/ -it mendoitarou/ccasl2:make /bin/bash
 ```
